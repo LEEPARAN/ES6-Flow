@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 3. this ?
+/*
+var value = 0;
+var obj = {
+    value: 1,
+    setValue: function() {
+        this.value = 2; // this: obj -> obj.value = 2;
+        (function() {
+            this.value = 3; // this: window -> window.value = 3;
+        })();
+    }
+}
+*/
+var value = 0;
+var obj = {
+    value: 1,
+    setValue: function() {
+        let a = 20;
+        this.value = 2; // this: obj -> obj.value = 2;
+        {
+            let a = 10;
+            this.value = 3;
+        }
+    }
+}
+obj.setValue();
+console.log(value);
+console.log(obj.value);
+</script>
+</body>
+</html>

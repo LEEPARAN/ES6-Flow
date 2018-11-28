@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//  4. 모든 문 형태에 적용.
+{
+    let a = 2;
+    if(a > 1) {
+        let b = a * 3;
+        console.log(b); // 6
+    }
+    else {
+        let b = a / 3;
+        console.log(b);
+    }
+    console.log(b); // b is not defined
+}
+console.log(b);
+
+if (Math.random() < 0.5) {
+    let j = 0;
+    console.log(j);
+}
+else {
+    let j = 1;
+    console.log(j);
+}
+console.log(j); // j is not defined
+
+let a = Math.cell(Math.random() * 3);
+switch (a) {
+    case 1: {
+        let b = 10;
+        console.log(a + b);
+        break;
+    }
+    case 2: {
+        let b = 20;
+        console.log(a + b);
+        break;
+    }
+    case 3: {
+        let b = 30;
+        console.log(a + b);
+        break;
+    }
+}
+console.log(a, b); // a is not defined
+
+var sum = 0;
+for(let i = 1; i <= 10; i++) {
+    sum += i;
+}
+console.log(sum);
+console.log(i);
+</script>
+</body>
+</html>
