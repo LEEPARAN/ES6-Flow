@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 2-1-1. 소개
+/*
+let a = 1;
+function f() {
+    console.log(a, b, c); // 1, not defined, not defined
+    let b = 2;
+    console.log(a, b, c); // 1, 2, not defined
+    if(true) {
+        let c = 3;
+        console.log(a, b, c);  // 1, 2, 3
+    }
+    console.log(a, b, c); // 1, 2, not defined
+}
+f();
+*/
+
+// let 상세
+// 1) 재할당 가능
+
+let a = 1;
+a = 2;
+console.log(a);
+
+// 반복문 내에서의 함수 실행시
+
+var funcs = [];
+
+for(var i = 0; i < 10; i++) {
+    funcs.push(function() {
+        console.log(i);
+    })
+}
+funcs.forEach(function(f){
+    f();
+})
+
+for(var i = 0; i < 10; i++) {
+    funcs.push((function(v) {
+        return function() {
+            console.log(v);
+        }
+    })(i));
+}
+funcs.forEach(function(f) {
+    f();
+});
+
+let funcs = [];
+for(let i = 0; i < 10; i++) {
+    funcs.push(function(){
+       console.log(i); 
+    });
+}
+funcs.forEach(function(f) {
+    f();
+});
+
+</script>
+</body>
+</html>

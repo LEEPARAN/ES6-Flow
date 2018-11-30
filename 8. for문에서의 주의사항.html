@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 반복문내에서의 상수
+var obj = {
+    prop1: 1,
+    prop2: 2,
+    prop3: 3
+}
+for(const prop in obj) {
+    console.log(prop);
+};
+
+// const의 for in 문 동작 방식
+{
+    let keys = Object.keys(obj);
+    for(let i = 0; i < keys.length; i++) {
+        const prop = obj[keys[i]];
+        console.log(prop);
+    }
+}
+/*
+prop => prop1
+prop => prop2
+prop => prop3
+*/
+for(const i = 0; i < 5; i++) {
+    console.log(i);
+}
+
+</script>
+</body>
+</html>

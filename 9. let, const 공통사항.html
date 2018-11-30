@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 2-3 공통사항
+// 1) 유효범위 => block scope에 걸린다.
+
+// 2) 재선언 (재정의)
+/*
+var a = 0;
+var a = 1;
+
+let b = 2;
+let b = 3;
+
+const c = 4;
+const c = 5;
+*/
+// let 값 자체의 변경이 필요한 예외적인 경우
+// const => 객체 
+
+// 3) TDZ (Temporal Dead Zone, 임시사각지대)에 걸린다.
+
+// 4) 전역객체의 프로퍼티?
+
+var a = 10;
+console.log(window.a); // 10
+console.log(a); // 10
+delete a;
+console.log(window.a); // 10
+console.log(a); // 10
+
+// var c = 전역변수임과 동시에 전역객체의 프로퍼티가 된다.
+// delete 는 객체를 삭제하는 것이기에 전역객제이자 동시에 전역변수인 a를 삭제할 수가 없다.
+window.b = 20;
+console.log(window.b);
+console.log(b);
+delete b;
+console.log(window.b);
+console.log(b);
+
+/* 
+let과 const는 전역에서 선언할 경우 전역 변수만 
+될 뿐 전역 객체가 되지않아 delete를 사용할 수 없다.
+*/
+let c = 30;
+console.log(window.c);
+console.log(c);
+delete c;
+console.log(window.c);
+console.log(c);
+
+const d = 40;
+console.log(window.d);
+console.log(d);
+delete d;
+console.log(window.d);
+console.log(d);
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+const OBJ2 = {
+    prop1: 1,
+    prop2: [1, 2, 3]
+}
+Object.freeze(OBJ2);
+OBJ2.prop1 = 10; // => result: OBJ2.prop1 = 1;
+OBJ2.prop2[1] = 20; // => result: OBJ2.prop2[1] = 20;
+
+Object.freeze(OBJ2.prop2);
+OBJ2.prop2[1] = 30; //  => result: OBJ2.prop2[1] = 20;
+
+// Obj 자체를 얼린다.
+// Obj 내부의 프로퍼티들을 순회하면서, 혹시 참조형이면, 1) 반복 -> 재귀.
+/*
+얕은 복사: 객체의 프로퍼티들을 복사 ( depth의 1단계까지만 )
+깊은 복사: 객체의 프로퍼티들을 복사 ( 모든 depth에 대해서 )
+
+1) 프로퍼티들을 복사.
+2) 프로퍼티들 중에 참조형이 있으면, 1) 반복 ===> 재귀
+*/
+var a = {
+    a: 1, 
+    b: [1, 2, 3],
+    c: { d: 1, e: 2 }
+}
+
+var b = Object.assign({}, a);
+b.b = Object.assign([], a.b);
+b.b[1] = 20;
+console.log('b: ', b);
+console.log('a: ', a);
+
+/*
+깊은복사를 해야만 immutable 하다. 
+immutable = 불변객체
+*/
+</script>
+</body>
+</html>
