@@ -161,3 +161,52 @@ undefined를 호출하는데 이 과정을 - 호이스팅 하여 변수를 선�
 만약 블록스코프 내에서 호이스팅을 아예 하지 않는다면 첫 번째 a 는 상위에 있는 10이라는 값을 호출 했을 것이다.
 
 결론은 블록스코프에서 호이스팅을 진행하나 es5 와 다르게 undefined를 대입하지 않고 변수가 선언된 채로 끝이난다.
+
+### 2018.11.30 block scoped variables
+
+#### let
+
+let은 위에 말했듯이 block scope의 영향을 받는다.
+
+```
+let a = 1;
+function fn() {
+  console.log(a, b, c) // 1, not defined, not defined
+  let b = 2;
+  console.log(a, b, c); // 1, 2, not defined
+  if(true) {
+    let c = 3;
+    console.log(a, b, c); // 1, 2, 3
+  }
+  console.log(a, b, c); // 1, 2, not defined
+}
+```
+
+아래 코드를 실행하면 위와 같은 결과가 출력되며 왜 코드가 이런 식으로 나오는 지는
+위에 block scope를 보면 알 수 있으니 생략한다.
+
+for 문에서의 var 과 let 의 차이가 어떻게 진행되는지 알아보자.
+```
+var arr = [];
+
+for(var i = 0; i < 10; i++) {
+  arr.push(function() {
+    console.log(i);
+  });
+}
+
+arr.forEach(function(f){
+  f();
+});
+
+result = 10 (10번 출력)
+```
+위와 같이 10이 10번 출력된다.
+
+이유는 변수 i가 가지고 있는 var i 의 값이 for문을 끝내고 10이 되어있는 상태에서 
+forEach를 실행해 배열의 함수를 호출하면 함수의 i 값은 함수 내부에서 i를 찾지 못하고
+외부에 있는 for문이 끝나 10이 된 i의 값을 받아서 10을 10번 출력하게 된다.
+
+이를 해결하기 위해서 자바스크립트의 클로저를 활용하였다.
+```
+```
