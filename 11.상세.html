@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 3-3 Details
+// 1) multi-line 들여쓰기 주의
+const f = function() {
+    const a = `abc ${10}
+def
+ghij`
+}
+// 3) 결국 문자열이므로 자동적으로 toString 처리가 된다.
+console.log(`${[0, 1, 2]}`);
+console.log(`{{a: 1, b: 2}}`);
+console.log(`${function(){ return 1 }}`);
+console.log(`${(function(){ return 1})()}` + 1);
+
+// 4) 중첩된 backtick 처리
+console.log(`foo ${`Bar`}`);
+
+// 5) 가독성읠 위해 trim 처리
+function a() {
+    return `
+    <div>
+        <h1>Lorem ipsum</h1>
+    </div>
+}
+</script>
+</body>
+</html>

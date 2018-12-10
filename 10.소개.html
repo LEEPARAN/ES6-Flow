@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 3-1 소개
+var a = 'abc'; // string literal
+var b = "abc"; // string literal 문자, 그대로
+var c = `abc`; // template literal 템플릿, 그대로
+
+console.log(a === b);
+
+// 템플릿 리터럴이 가지는 성격
+var d = "abc\n" + // 기존 문자 리터럴: 줄바꿈을 하기 위해 \n 혹은 + 엔터 처리를 하였다.
+    "def";
+var e = `a 
+    bcd
+    efg`; 
+// 템플릿 리터럴: 엔터를 치면서 자유롭게 줄 바꿈을 할 수 있다. 
+// 단점은 가독성을 위한 탭 공간까지 같이 공백으로 표시가 된다.
+
+const f = 10;
+const g = 20;
+const strBefore = f + ' + ' + g + ' = ' + (f + g);
+const str = `${f} + ${g} = ${ f + g }`; // ${} 안에는 값 혹은 식이 올 수 있다.
+console.log(strBefore);
+console.log(str);
+
+// 3-2 상세
+// 1. backtick (`)
+// 2. multi-line
+// 3. string interpolation
+</script>
+</body>
+</html>
