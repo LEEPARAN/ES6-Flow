@@ -502,6 +502,7 @@ console.log(c) // "see"
 
 ### 2018.12.11 template litreal
 
+#### 소개
 #### template litreal 란
 
 기존의 문자열 작성 방법에는 두 가지가 존재하였으나 하나가 더 생겼다. 
@@ -542,4 +543,63 @@ const a = 10;
 const b = 20;
 const sum = `${a} + `{b} = a + b`;
 console.log(sum); // 10 + 20 = 30
+```
+
+#### 상세 (이전 글을 보고서 작성하였다.)
+
+template literal에 대해 조금 더 자세히 알아보도록 하자.
+
+```
+// 1) multi-line 들여쓰기
+// 위에도 작성하였지만 템플릿 리터럴 안에서는 모든 띄어쓰기 줄바꿈이 적용된다.
+const f = function() {
+  const a = `abc ${10}
+def
+ghij`
+}
+// 결국 문자열이므로 자동적으로 toString 처리가 된다.
+console.log(`${[0, 1, 2]}`);
+console.log(`{{a: 1, b: 2}}`);
+console.log(`${function() { return 1}}`);
+console.log(`${(function() { return 1 })()}` + 1);
+
+// 중첩된 backtick 처리
+console.log(`foo ${`bar`}`);
+
+// 가독성을 위해 trim 처리
+function a() {
+  return `
+<div>
+  <h1>Lorem ipsum</h1>
+</div>
+`.trim();
+}
+console.log(a());
+```
+const linesToHTML = function (characters) {
+    debugger;
+    return characters.reduce(function (charactersResult, characters) {
+        let {name, lines} = characters;
+        return `${charactersResult || ''}
+<article>
+    <h1>${name}</h1>
+    <ul>
+        ${lines.reduce(function(linesResult, line) {
+            return `${linesResult || ''}
+            <li>${line}</li>
+            `.trim()})}
+    </ul>
+</article>
+    `.trim()}, 0);
+}
+const characters = [{
+    name: 'Aria Stark',
+    lines: ['A girl has no name.']
+}, {
+    name: 'John Snow',
+    lines: [
+        'You know nothing, John Snow',
+        'Winter is coming'
+    ]
+}];
 ```
