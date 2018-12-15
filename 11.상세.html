@@ -24,13 +24,43 @@ console.log(`${(function(){ return 1})()}` + 1);
 // 4) 중첩된 backtick 처리
 console.log(`foo ${`Bar`}`);
 
-// 5) 가독성읠 위해 trim 처리
+// 5) 가독성을 위해 trim 처리
 function a() {
     return `
-    <div>
-        <h1>Lorem ipsum</h1>
-    </div>
+<div>
+    <h1>Lorem ipsum</h1>
+</div>
+    `.trim();
 }
+console.log(a());
+
+const linesToHTML = function (characters) {
+    debugger;
+    return characters.reduce(function (charactersResult, characters) {
+        let {name, lines} = characters;
+        return `${charactersResult || ''}
+<article>
+    <h1>${name}</h1>
+    <ul>
+        ${lines.reduce(function(linesResult, line) {
+            return `${linesResult || ''}
+            <li>${line}</li>
+            `.trim()})}
+    </ul>
+</article>
+    `.trim()}, 0);
+}
+const characters = [{
+    name: 'Aria Stark',
+    lines: ['A girl has no name.']
+}, {
+    name: 'John Snow',
+    lines: [
+        'You know nothing, John Snow',
+        'Winter is coming'
+    ]
+}];
+document.body.innerHTML = linesToHTML(characters);
 </script>
 </body>
 </html>

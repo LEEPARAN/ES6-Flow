@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+const a = [1, 2, 3];
+
+a.forEach(function(v, i, arr) {
+    console.log(v, i, arr, this);
+}, [10, 20, 30]);
+
+// 배열의 모든 메소드는 중요한 순서로 나열되어있다.
+// 즉 앞에 것일수록 중요한 것이다.
+
+// forEach: for문 돌리는 거랑 같은 개념.
+// map: for문을 돌려서 새로운 배열을 만드는 목적. (무언가를 만드는게 목적이라 함수 내부에서 return 필수)
+// reduce: for문을 돌려서 최종적으로 다른 무언가를 만드는 목적. return 필수
+
+const b = a.map(function(v, i, arr) {
+    console.log(v, i, arr, this);
+    return this[0] + v;
+}, [10]);
+
+const c = a.reduce(function(p, c, i, arr) {
+    console.log(p, c, i);
+    return p + c;
+});
+const arr = ['a', 'b', 'c', 'd'];
+const str = arr.reduce(function(res, item, index, array) {
+    res[item] = item;
+    return res;
+}, {});
+console.log(str);
+const count = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let res = 0;
+// count 배열의 모든 숫자를 더해라
+// 1. 일반적인 방식
+for(let i = 0; i < count.length; i++) {
+    res += count[i];
+}
+console.log(res);
+
+// 2. ES5 reduce 활용 방법
+const res2 = count.reduce(function(a, c) {
+    return a + c;
+});
+
+// 3. ES6 arrow function reduce 활용 방법
+const res3 = count.reduce((a, c) => a + c);
+</script>
+</body>
+</html>
