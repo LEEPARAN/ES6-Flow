@@ -575,7 +575,7 @@ function a() {
 `.trim();
 }
 console.log(a());
-```
+
 const linesToHTML = function (characters) {
     debugger;
     return characters.reduce(function (charactersResult, characters) {
