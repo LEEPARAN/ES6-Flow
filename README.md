@@ -499,3 +499,107 @@ console.log(c) // "see"
   재할당할 필요가 있을 경우에만 let을 사용하고 var 는 그냥 사용하지 않는다.
   재할당할 필요가 있다고 생각되어도 생각보다 const를 사용하여 재할당하지 않아도 괜찮은 코드들을 만들어 낼 수 있다고 한다.
   var 과 혼용하여 사용할 경우 속도가 저하된다. 차라리 var을 쓸거면 var만 쓰도록 하자.
+
+### 2018.12.11 template litreal
+
+#### 소개
+#### template litreal 란
+
+기존의 문자열 작성 방법에는 두 가지가 존재하였으나 하나가 더 생겼다. 
+이는 백틱(backtick) 이라고 하는 키보드 물결 문자 부분을 쉬프트를 누르지 않고 누르면 된다
+
+```
+var a = '안녕하세요.'; // string litreal
+var b = "안녕하세요2."; // string litreal
+var c = `안녕하세요3.`; // template literal
+```
+
+위를 실행하면 위와같이 동일하게 나옵니다.
+
+템플릿 리터럴의 장점으로 줄바꿈을 편하게 할 수 있다는 것이다.
+```
+var d = "abc\n" +
+  "deg"
+  
+var e = `abc
+def
+ghi`
+```
+
+줄바꿈은 편하지만 코딩시에 가독성을 위한 복조차 없다.
+
+```
+        abc
+def
+ghi
+```
+
+출력 값을 이용해서 코드와 개발물이 동시에 잘보이는 코드로 하자.
+
+템플릿의 주 목적은 이것이 아니고 아래와 같이 사용하는게 주 목적이다.
+
+```
+const a = 10;
+const b = 20;
+const sum = `${a} + `{b} = a + b`;
+console.log(sum); // 10 + 20 = 30
+```
+
+#### 상세 (이전 글을 보고서 작성하였다.)
+
+template literal에 대해 조금 더 자세히 알아보도록 하자.
+
+```
+// 1) multi-line 들여쓰기
+// 위에도 작성하였지만 템플릿 리터럴 안에서는 모든 띄어쓰기 줄바꿈이 적용된다.
+const f = function() {
+  const a = `abc ${10}
+def
+ghij`
+}
+// 결국 문자열이므로 자동적으로 toString 처리가 된다.
+console.log(`${[0, 1, 2]}`);
+console.log(`{{a: 1, b: 2}}`);
+console.log(`${function() { return 1}}`);
+console.log(`${(function() { return 1 })()}` + 1);
+
+// 중첩된 backtick 처리
+console.log(`foo ${`bar`}`);
+
+// 가독성을 위해 trim 처리
+function a() {
+  return `
+<div>
+  <h1>Lorem ipsum</h1>
+</div>
+`.trim();
+}
+console.log(a());
+```
+const linesToHTML = function (characters) {
+    debugger;
+    return characters.reduce(function (charactersResult, characters) {
+        let {name, lines} = characters;
+        return `${charactersResult || ''}
+<article>
+    <h1>${name}</h1>
+    <ul>
+        ${lines.reduce(function(linesResult, line) {
+            return `${linesResult || ''}
+            <li>${line}</li>
+            `.trim()})}
+    </ul>
+</article>
+    `.trim()}, 0);
+}
+const characters = [{
+    name: 'Aria Stark',
+    lines: ['A girl has no name.']
+}, {
+    name: 'John Snow',
+    lines: [
+        'You know nothing, John Snow',
+        'Winter is coming'
+    ]
+}];
+```
