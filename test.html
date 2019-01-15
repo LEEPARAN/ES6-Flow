@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+function solution(n) {
+	debugger;
+	var result = 0;
+	var calc = (val) => {
+		var arr1 = val.toString().split('');
+		result = 0;
+        for(var i = 0; i < arr1.length; i++) {
+            result += parseInt(arr1[i]);
+        }
+	}
+    calc(n);
+	if(result.toString().length === 1) {
+		console.log(result);
+	}
+	else {
+        console.log(result);
+		calc(result);
+    }
+}
+solution(456789);
+</script>
+</body>
+</html>

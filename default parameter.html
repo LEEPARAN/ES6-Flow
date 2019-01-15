@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 4. default parameter(매개변수 기본값)
+// 4-1. 소개
+const f = (x, y, z) => {
+    x = x ? x : 4;
+    y = y || 5;
+    if(!z) {
+        z = 6;
+    }
+    console.log(x, y, z);
+}
+f(0, null);
+
+const g = (x, y, z) => {
+    x = x !== undefined ? x : 4;
+    y = typeof y !== 'undefined' || 5;
+    if(!z) {
+        z = 6;
+    }
+    console.log(x, y, z);
+}
+g(0, null);
+
+const h = (x = 4, y = 5, z = 6) => {
+    console.log(x, y, z);
+}
+h(undefined, 0, null);
+
+const i = (a = 1, b = 2, c = 3, d = 4, e = 5, f = 6) => {
+    console.log(a, b, c, d, e, f);
+}
+i(7, 0, "", false, null);
+
+// 4-2 상세
+// 1) undefined 혹은 누락된 파라미터에 대해서만 동작
+// 2) 식?
+
+var a = (a = 1, b = a + 1, c = 3) => { // default parameter는 let이 된다.
+    console.log(a, b, c);
+}
+a(1, undefined, 3);
+
+const notValid = () => {
+    console.log('getDefault Called');
+    return 10;
+}
+const sum = (x = notVaild(), y = notVaild()) => {
+    console.log(x + y);
+}
+sum(1, 2);
+sum();
+</script>
+</body>
+</html>

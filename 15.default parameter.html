@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 4. default parameter (매개변수 기본값)
+// 4-1 소개
+const f = (x, y, z) => {
+    x = x !== undefined ? x : 4;
+    y = y || 5;
+    if(!z) {
+        z = 6;
+    }
+    console.log(x, y, z);
+}
+f(0, null);
+
+const g = (x = 4, y = 5, z = 6) => {
+    console.log(x, y, z);
+}
+g(null, 0, false);
+
+function a(a = 1, b = 2, c = 3) {
+    var a = 1;
+    var b = 2;
+    var c = 3;
+}
+a(1, 2, 3);
+
+const notValid = function() {
+    console.error("notValid Called.");
+    return 10;
+}
+const sum = function(x = notValid(), y = notValid()) {
+    console.log(x + y); 
+}
+sum(1, 2);
+sum();
+</script>
+</body>
+</html>
