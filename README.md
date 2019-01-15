@@ -738,12 +738,150 @@ arguments란 함수 호출 시 들어있는 인자값을 함수의 매개변수�
 
 ```
 function abc(a = 1, b = 2, c = 3) {
-	console.log(arguments); // 출력 값: 없음
+    console.log(arguments); // 출력 값: 없음
 }
 abc();
 ```
 
 위의 결과에서 보여줬듯이 arguments는 default parameter 값을 가져오지 않고 아무값도 출력하지 않는다.
 arguments는 함수 호출 시 인자에 담긴 값만을 출력한 다는 것을 알 수 있다.
+
+#### rest parameter (나머지 연산자)
+
+위에 default parameter에서 arguments는 유사배열이라고 설명하였다.
+arguments는 유사배열이므로 이를 유사배열이 아닌 진짜 배열로 바꿔주려면 아래와 같은 절차를 거쳐야한다.
+물론 아래 방법 이외에도 유사배열을 배열로 바꾸는 방법은 많다.
+
+```
+function abc() {
+  var arr = Array.prototype.slice.call(arguments);
+}
+```
+
+아무튼 나머지 연산자에 대해서 알아보자
+- 사용법
+
+```
+const abc = (...arr) => {
+    console.log(arr);  // 출력 값: 1, 2, 3, 4, 5
+}
+abc(1, 2, 3, 4, 5);
+
+const abc2 = (a, b, ...arr) => {
+    console.log(a, b, arr); // 출력 값: 1, 2, [3, 4, 5]
+}
+abc2(1, 2, 3, 4, 5);
+```
+
+이름에 알맞게 앞에 출력 될 매개변수가 있으면 해당 매개변수를 제외한 나머지 값들을 출력해준다.
+
+```
+const abc3 = (a, ...arr, b) => {} 
+```
+
+위와 같은 식으로 사용할 경우 나머지 연산자는 맨 마지막에 배치되어있어야 한다며 에러를 출력한다.
+위에 언급하였듯이 유사배열이 아닌 Array 그 자체이며 배열에서 사용되는 기능인 shift() 같은 기능도
+Array.prototype.slice.call(arguments); 이런 과정 거치지 않고 쉽게 사용할 수 있다.
+
+#### spread operator(펼침 연산자, 전개 연산자)
+
+강의하시는 분께서 한글로 아직 정확히 정의된게 없어서 명칭을 두 가지를 작성하였고 실무에서 혼동이 없도록
+말할때에는 그냥 스프레드 오퍼레이터라고 말하는게 좋을 것이라고 하였다.
+
+일단 사용법은 위의 나머지 연산자와 비슷하다. 사용법부터 아래에서 보도록 하자.
+- 사용법
+
+```
+const arr1 = [0, 1, 2];
+const arr2 = [5, 6, 7];
+const arr3 = [...arr1, 3, 4, ...arr2];
+console.log(arr3); // 출력 값: [0, 1, 2, 3, 4, 5, 6, 7]
+
+// ES5
+var arr4 = arr1.concat(3, 4).concat(arr2); // 출력 값: [0, 1, 2, 3, 4, 5, 6, 7]
+
+// 활용
+Math.max(0, 1, 2); // 출력 값: 2
+Math.max.apply(null, arr1); // 출력 값: 2
+Math.max(...arr1); // 출력 값: 2
+```
+
+위와 같은 방식으로 활용이 가능하다. 나머지 연산자와 다른 점으로는 사용 법에서 보여줬듯이
+배열의 앞, 뒤로 자유롭게 붙여서 사용이 가능하다.
+
+그러면 언제 rest operator이고 언제 spread operator인가?
+
+getter: 나머지 / 받는 입장
+setter: 펼치기 / 주는 입장
+
+으로 나누면 쉬울 것 같다.
+
+특징1: spread operator는 '새로운' 배열이다.
+
+```
+const oldArr = [1, 2, 3];
+const newArr = [...oldArr];
+oldArr.push(4);
+console.log(oldArr); // 출력 값: [1, 2, 3, 4]
+console.log(newArr); // 출력 값: [1, 2, 3]
+```
+
+특징2: '얕은 복사'만을 수행한다.
+
+```
+const oldArr = [{
+    first: "Github",
+    second: "Git Desktop"
+},{
+    first: "ES5",
+    second: "ES6"
+}];
+const newArr = [...oldArr];
+newArr[0].first = "Git Bash";
+console.log(oldArr[0].first); // 출력 값: "Git Bash"
+console.log(newArr[0].first); // 출력 값: "Git Bash"
+```
+
+#### shorthand property
+ES5에서 귀찮은 것들을 제거해주었다.
+
+```
+// ES5
+var x = 5;
+var y = 10;
+var obj = {
+    x: x,
+    y: y
+}
+// ES6
+const obj2 = {
+    x,
+    y
+}
+console.log(obj, obj2) // 출력 값: { x: 5, y: 10 }, { x: 5, y: 10 }
+```
+
+ES6로 들어오면서 위와 같이 프로퍼티 값과 대입하고자 하는 값의 명칭이 동일할 경우 생략하고 작성하여도 원하는 결과를 나타낼 수 있다.
+
+```
+// ES5
+var obj = {
+    greeting: function() {
+	return "hi";
+    }
+}
+// ES6
+const obj2 = {
+    greeting() {
+    	return "hi";
+    }
+}
+console.log(obj.greeting()); // 출력값: "hi"
+console.log(obj2.greeting()); // 출력값: "hi"
+```
+
+메소드를 호출하는 방식도 조금 더 가볍게 바뀌었는데 결정적인 차이점으로는 ES6의 방식에서는 해당 메소드에 prototype이 빠져있다.
+이로 인해 가장 큰 장점이 해당 기능에 조금 더 충실하고 prototype 메소드가 빠짐으로서 조금 더 가벼워져 성능 향상이 된다고 하는데
+또 무언가가 빠진 것 같다. 강의 다시 듣고 보충하도록 해야겠다.
 
 
