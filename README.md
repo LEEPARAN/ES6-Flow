@@ -575,7 +575,7 @@ function a() {
 `.trim();
 }
 console.log(a());
-```
+
 const linesToHTML = function (characters) {
     debugger;
     return characters.reduce(function (charactersResult, characters) {
@@ -602,4 +602,82 @@ const characters = [{
         'Winter is coming'
     ]
 }];
+```
+
+#### forEach, map, reduce 메소드에 대하여
+
+위 세 가지 메소드는 ES5에 있는 메소드들이지만 사용하지 않아본 사람들을 위한 설명이 담긴 내용이다.
+
+1. forEach는 알다시피 배열 for문을 편하게 동작시켜주는 역할을 한다.
+```
+const a = [1, 2, 3];
+a.forEach(function(value, index, array) {
+  console.log(value, index, array, this);
+}, [10, 20, 30]);
+
+출력 :
+1 0 (3) [1, 2, 3] (3) [10, 20, 30]
+2 1 (3) [1, 2, 3] (3) [10, 20, 30]
+3 2 (3) [1, 2, 3] (3) [10, 20, 30]
+```
+
+2. map 메소드는 for문을 돌려 새로운 배열 요소를 생성하기 위해 사용한다.
+
+```
+const b = [1, 2, 3];
+const c = b.map(function(v, i, arr) {
+  console.log(v, i, arr, this);
+  return this[0] + v;
+}, [10]);
+
+출력: [11, 12, 13];
+```
+
+3. reduce 메소드는 for문을 돌려 최종적으로 다른 무언가를 만들기 위해 사용한다.
+
+```
+const d = [1, 2, 3];
+const e = d.reduce(function(acc, val, idx, arr) {
+  console.log(acc, val, idx, arr);
+  return acc + val;
+}, 10);
+
+출력: 16
+// acc의 값이 this 10 으로 들어온다.
+// 다 합쳐서 10이 주어진다.
+
+// 여기서 뒤에 this가 있을 경우와 없을 경우의 차이점
+// this가 존재할 경우 acc의 값을 0으로 지정하고 value 값을 맨 첫 번째 배열로 지정 index는 0 번째를 가르킴
+// 하지만 this가 존재하지 않을 경우 acc(누산값)에 첫 번째 배열 값이 1이며 value에 그 다음 인덱스인 2번이 들어온다.
+```
+
+위 작업은 숫자 뿐만 아니라 문자열도 하나로 합쳐줄 수 있다.
+```
+const f = ['a', 'b', 'c', 'd', 'e'];
+const g = f.reduce(function(acc, val, idx, arr) {
+  return acc + val;
+});
+
+출력: "abcde"
+```
+
+그리고 이전의 숫자를 하나로 맞춰달라는 작업을 더 손 쉽게할 수 있다.
+```
+const h = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let sub = 0;
+// 1. 정말 귀찮았던 숫자 더하기
+for(let i = 0; i < h.length; i++) {
+  sub += h[i];
+}
+console.log(sub);
+
+// 2. reduce 메소드로 조금 더 간단하게
+const k = h.reduce(function(a, v, i, arr) {
+  return a + c;
+})
+
+// 3. ES6 Function Arrow 를 활용한 reduce
+const l = h.reduce((a, c) => a, c);
+
+모든 출력값 봉투안으로...
 ```
