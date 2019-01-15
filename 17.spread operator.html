@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 6. spread operator(펼치기 연산자, 전개 연산자)
+// 6-1 소개
+var birds = ["eagle", "pigeon"];
+var mammals = ["rabbit", "cat"];
+var animals = birds.concat("whale").concat(mammals);
+console.log(animals);
+
+const animals2 = [...birds, "whale", ...mammals];
+console.log(animals2);
+
+// 6-2 상세
+// 1) 배열의 각 인자를 펼친 효과
+const values = [20, 10, 30, 50, 40];
+console.log(20, 10, 30, 50, 40);
+console.log(...values);
+
+console.log(Math.max(20, 10, 30, 50, 40));
+console.log(Math.max.apply(null, values));
+console.log(Math.max(...values));
+
+// 2) 앞뒤로 다른 값들을 함께 사용할 수도 있다.
+const values2 = [3, 4, 5, 6, 7, 8];
+const sum = (...args) => args.reduce((p, c) => p + c);
+console.log(sum(1, 2, ...values2, 9, 10));
+
+// 3) iterable한 모든 데이터는 펼칠 수 있다.  (iterable 반복할 수, 반복 될 수 있는 것)
+const str = "Hello";
+const splitArr = str.split("");
+const restArr = [...str];
+console.log(splitArr, restArr);
+
+// getter: 나머지 / 받는 입장
+// setter: 펼치기 / 주는 입장
+
+// 4) push, unshift, concat 등의 기능을 대체할 수 있다.
+let originalArr = [2, 3];
+const preArr = [-2, -1];
+const sufArr = [6, 7];
+
+originalArr.unshift(1); // 원래 배열
+originalArr.push(4); // 원래 배열
+originalArr = [0, ...originalArr, 5]; // 새로운 배열
+console.log(originalArr);
+
+const concatArr = preArr.concat(originalArr, sufArr);
+const restArr2 = [...preArr, ...originalArr, ...sufArr];
+console.log(concatArr, restArr2);
+
+// 5) '새로운' 배열이다.
+let originalArray = [1, 2];
+let copiedArray = [...originalArray];
+console.log(originalArray === copiedArray);
+
+originalArray.push(3);
+console.log(originalArray);
+console.log(copiedArray);
+
+// 6) '얕은복사'만을 수행한다.
+let originalArray2 = [{
+    first: "Hello,",
+    second: "World!"
+}, {
+    first: "Welcome",
+    second: "ES6!"
+}];
+
+let copiedArray2 = [...originalArray2];
+console.log(originalArray2[0].first);
+
+copiedArray2[0].first = "Hi,";
+console.log(originalArray2[0].first);
+</script>
+</body>
+</html>

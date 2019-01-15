@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 5.rest parameter (나머지 매개변수)
+// 5-1 소개
+function foo(a, b) {
+    a = 1;
+    arguments[0] = 2;
+    console.log(a, arguments[0]);
+}
+foo(10, 20);
+
+function f(x, y) {
+    var rest = Array.prototype.slice.call(arguments, 2);
+    console.log(rest);
+}
+f(1, 2, true, null, undefined, 10);
+
+const g = (x, y, ...rest) => {
+    console.log(rest);
+}
+g(1, 2, true, null, undefined, 10);
+
+let person = {
+    name: "name",
+    age: 30,
+    get personInfo() {
+        return this.name + ' ' + this.age;
+    },
+    set personInfo (...val) {
+        this.name = val[0];
+        this.age = val[1];
+    }
+}
+console.log(person.personInfo);
+</script>
+</body>
+</html>

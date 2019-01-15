@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 7.enhanced object functionalities (객체의 향상된 기능들)
+// 7-1 shorthand properties (프로퍼티  축약)
+// 7-1-1.소개
+// ES5
+var x = 10;
+var y = 20;
+var obj = {
+    x: x,
+    y: y
+}
+// ES6
+const x1 = 10;
+const y1 = 20;
+const obj2 = {
+    x1,
+    y1
+}
+
+// 7-1-2.상세
+// 프로퍼티의 key와 value에 할당할 변수명이 동일한 경우 value 생략 가능.
+
+// 7-1-3.활용
+// 1) 함수에서 객체를 리턴할 때
+const convertExtension = (fullFileName) => {
+    const fullFileNameArr = fullFileName.split(".");
+    const filename = fullFileNameArr[0];
+    const ext = fullFileNameArr[1] && fullFileNameArr[1] === "png" ? "jpg" : "gif";
+    return {
+        filename,
+        ext
+    }
+}
+convertExtension("agc.png");
+
+// 2) destructuring assignment
+const {
+    name,
+    age
+} = {
+    name: "재남",
+    age: 30
+}
+console.log(name, age);
+
+// 7-2. concise methods (간결한 메소드)
+// 7-2-1.소개
+// ES5
+var obj = {
+    name: "foo",
+    getName: function() { return this.name }
+}
+// ES6
+var obj2 = {
+    name: "foo",
+    getName2 () { return this.name }
+}
+
+// 7-2-2. 상세
+// 1) :function 키워드 제거
+// 2) super 명령어로 상위 클래스에 접근 가능
+const Person = {
+    greeting: function() { return "hello" }
+}
+const friend = {
+    greeting: function() {
+        return "hi, " + super.greeting();
+    }
+}
+Object.setPrototypeOf(friend, Person);
+friend.greeting();
+
+// ================= 위의 내용 해석 ==================
+
+const Person3 = function() {}
+Person3.prototype.greeting = function() { return "hello " }
+const friend3 = new Person3();
+friend3.greeting = function () {
+    return "hi, " + this.__proto__.greeting();
+}
+
+const Person2 = {
+    gretting () { return "hello" }
+}
+const friend2 = {
+    greeting() {
+        return "hi, " + super.greeting();
+    }
+}
+Object.setPrototypeOf(friend2, Person2);
+friend2.greeting();
+
+// 3) prototype 프로퍼티가 없음 -> 생성자 함수로 쓸 수 없다.
+
+</script>
+</body>
+</html>
