@@ -681,3 +681,69 @@ const l = h.reduce((a, c) => a, c);
 
 모든 출력값 봉투안으로...
 ```
+
+#### default parameter
+
+말그대로 기본 매개변수라고 생각하면 좋을 것 같다. 우리는 ES5에서 기본 매개변수 값을 설정하기 위해 아래와 같은 코드들을 사용하였다.
+
+```
+const default1 = (a, b, c) => {
+  var aa = a || 1;
+  var bb = b ? b : 1;
+  var cc;
+  if(!c) {
+    cc = 1;
+  }
+  else {
+    cc = c;
+  }
+  return aa + bb + cc;
+}
+default1(10, 10); // 출력 값: 21
+```
+
+하지만 이제 ES6에서는 이러한 일을 할 필요가 없다. ES6에서는 이래와 같은 방식으로 하면 된다.
+
+```
+const default2 = (a = 1, b = 1, c = 1) => {
+    return a + b + c;
+}
+default2(10, 10); // 출력 값: 21
+```
+
+위에 매개변수가 담기는 곳에 default parameter값을 넣어주면 해당 값이 비어있을 경우 default parameter 값을 변수에 담는다.
+이 ES6의 default parameter를 담는 방식은 ES5로 적은 방식과 약간의 다른 결과를 나타낸다.
+(default1은 ES5 코드, default2는 ES6 코드라는 가정하에 작성한다.)
+
+ES5 코드에서 아래와 같은 방식으로 작성할 경우 어떠한 결과가 출력될 까?
+
+```
+default1(null, 0, 5); 출력 값: 7
+```
+
+결과는 위에 작성된 것과 같이 7이 나오는데 null과 0이라는 숫자를 함수 호출할 때 고유한 값으로 적용되지 않고 전부 false로 처리되어서
+작성해둔 default 값이 적용되어 null => 1, 0 => 1, 5 => 5가 되어서 총 합 7이 되었습니다.
+그렇다면 ES6로 작성해둔 default parameter 코드는 어떠한 결과를 나타낼 것인가?
+
+```
+default2(null, 0, 5); // 출력 값: 5
+```
+
+위에 작성해 둔대로 출력 값이 5가 나왔습니다. ES6의 default parameter는 ES5와 달리 0, null 등을 순수한 true, false로 구분하지 않고
+순수하게 값이 입력되었나의 여부만을 따지기 때문에 null과 0 또한 입력되어서 default parameter를 바라보지 않고 값이 입력되어 null + 0 + 5라는
+식이 나왔고 5라는 결과가 출력되었습니다.
+
+여기서 궁금해지는 점 과연 arguments는 인자가 비었을 경우 어떤 값을 출력할 것인가?
+arguments란 함수 호출 시 들어있는 인자값을 함수의 매개변수에 작성하지 않아도 함수 내에서 실행 시 유사배열 형태로 인자에 담긴 값을 출력한다.
+
+```
+function abc(a = 1, b = 2, c = 3) {
+	console.log(arguments); // 출력 값: 없음
+}
+abc();
+```
+
+위의 결과에서 보여줬듯이 arguments는 default parameter 값을 가져오지 않고 아무값도 출력하지 않는다.
+arguments는 함수 호출 시 인자에 담긴 값만을 출력한 다는 것을 알 수 있다.
+
+
