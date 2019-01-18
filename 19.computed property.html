@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 7-3.computed property name (계산된 프로퍼티명)
+// 7-3-1.소개
+var className = "Class";
+var obj = {};
+
+obj.'ab cd' = "AB CD"; // 실행 불가능
+
+obj = {
+    "ab cd": "AB CD" // 실행 가능
+}
+
+obj['ab cd'] = "AB CD"; // 실행 가능
+
+var obj = {
+    "A" + className: "급"  // 실행 불가능
+}
+
+obj["A" + className] = "A급";  // 실행 가능
+
+const obj2 = {
+    ["A" + className]: "A급" // 실행 가능
+}
+
+let suffix = " name";
+let iu = {
+	["last" + suffix]: "이",
+	["first" + suffix]: "지은"
+}
+console.log(iu);
+
+const count = ((c) => () => c++)(0);
+const count1 = (function(c) { // 위와 현재 줄 코드가 동일한 코드
+	return function() {
+		return c++;
+	}
+})(0);
+var obj = {
+	[`a_${count()}`]: count(),
+	[`a_${count()}`]: count(),
+	[`a_${count()}`]: count()
+}
+console.log(obj);
+</script>
+</body>
+</html>
