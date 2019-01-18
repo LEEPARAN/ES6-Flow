@@ -884,4 +884,66 @@ console.log(obj2.greeting()); // 출력값: "hi"
 이로 인해 가장 큰 장점이 해당 기능에 조금 더 충실하고 prototype 메소드가 빠짐으로서 조금 더 가벼워져 성능 향상이 된다고 하는데
 또 무언가가 빠진 것 같다. 강의 다시 듣고 보충하도록 해야겠다.
 
+#### computed property (계산된 프로퍼티명)
 
+객체를 좀 더 보기 쉽게 활용할 수 있다.
+
+```
+var suffix = " name";
+var iu = {
+    ["last" + suffix]: "이",
+    ["fisrt" + suffix]: "지은"
+}
+console.log(iu) // 출력 값: { "last name": "이", "first name": "지은" }
+```
+
+#### property enumeration order (속성 열거 순서)
+
+```
+const obj1 = {
+    c: 1,
+    2: 2,
+    a: 3,
+    0: 4,
+    b: 5,
+    1: 6
+}
+
+const keys1 = [];
+for(const key in obj1) {
+    keys1.push(key);
+}
+
+console.log(keys1); // 출력 값: ["0", "1", "2", "c", "a", "b"]
+console.log(Object.keys(obj1)); // 출력 값: ["0", "1", "2", "c", "a", "b"]
+console.log(Object.getOwnPropertyNames(obj1)); // 출력 값: ["0", "1", "2", "c", "a", "b"]
+```
+
+위의 출력 값으로 확인해 볼 수 있는것으로 출력되는 순서는 숫자가 낮은 순서부터 우선시 되며
+그 이후에 문자들은 입력된 순서대로 출력되는 것을 확인할 수 있다.
+
+```
+const obj2 = {
+    [Symbol('2')]: true,
+    '02': true,
+    '10': true,
+    '01': true,
+    '2': true,
+    [Symbol('1')]: true
+}
+
+const keys2 = [];
+for(const key in obj2) {
+    keys2.push(key);
+}
+console.log(keys2); // 출력 값: ["2", "10", "02", "01"]
+console.log(Object.keys(obj2)); // 출력 값: ["2", "10", "02", "01"]
+console.log(Object.getOwnPropertyNames(obj2)); // 출력 값: ["2", "10", "02", "01"]
+console.log(Reflect.ownKeys(obj2)); // 출력 값: ["2", "10", "02", "01", "[Symbol('2')]", "[Symbol('1')]"]
+```
+
+위 코드의 숫자를 보면 분명 01이 2보다 더 작은데 왜 맨 뒤에 있는 것인가 하고 의아할 수 있다.
+하지만 속성 열거 순서에 의해 숫자 앞에 0이 붙은 것(0 하나만 있는 것 제외)은 문자로 인식하여 입력된 순서대로
+출력을 하게 된다. 그리고 [Symbol('2')] 이런 것이 추가되었는데 아직 이에 대한 설명이 없어서 용도는
+알 수없고 일단 출력 결과로 알 수있는 것은 평소에 일반적인 코드로는 출력할 수 없으나 Reflect.ownKeys 메소드
+안에서 실행하면 Symbol이 보이며 이는 문자열이 입력순서대로 들어간 뒤 Symbol이 입력 순서대로 들어감을 확인할 수 있다.
