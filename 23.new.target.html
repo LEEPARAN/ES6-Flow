@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 9-2. new.target
+function Person(name) {
+    if(this instanceof Person) {
+        this.name = name;
+    }
+    else {
+        throw new Error("new 연산자를 사용하세요.");
+    }
+}
+var p1 = new Person("재남");
+console.log(p1);
+
+var p2 = Person("성훈");
+console.log(p2);
+
+var p3 = Person.call({}, "곰");
+console.log(p3);
+
+var p4 = Person.call(p1, "곰");
+console.log(p4);
+
+function Person(name) {
+    console.dir(new.target);
+    if(new.target !== undefined) {
+        this.name = name;
+    }
+    else {
+        throw new Error("new 연산자를 사용하세요.");
+    }
+}
+var p1 = new Person("재남");
+console.log(p1);
+
+var p2 = Person("성훈");
+console.log(p2);
+
+var p3 = Person.call({}, "곰");
+console.log(p3);
+
+var p4 = Person.call(p1, "곰");
+console.log(p4);
+
+function Person(name) {
+    const af = n => {
+        this.name = n;
+        console.log(new.target);
+    }
+    af(name);
+}
+const p1 = new Person("재남");
+const p2 = Person("성훈");
+
+function Person(name) {
+    this.name = name;
+    return 10;
+}
+function Android (name) {
+    const res = Person.call(this, name);
+    console.log(res);
+}
+const p1 = new Android("재남봇");
+
+function Person(name) {
+    console.log(new.target);
+    if(new.target === Person) {
+        this.name = name;
+    }
+    else {
+        throw new Error("Person 생성자함수를 new로 호출해야 해요!");
+    }
+}
+function Android(name) {
+    Person.call(this, name);
+}
+const p2 = new Android("재남봇");
+
+class A {
+    constructor () {
+        if(new.target === A) { throw new Error("얘는 추상클래스란다."); }
+    }
+}
+class B extends A {
+    constructor () {
+        super();
+    }
+}
+const b = new B();
+const a = new A();
+</script> 
+</body>
+</html>

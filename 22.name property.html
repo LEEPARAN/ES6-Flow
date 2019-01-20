@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 9. function - etc
+// 9-1. name property of function
+function a () {}
+console.log(a.name);
+
+const b = function() {}
+console.log(b.name);
+
+const c = function cc() {}
+console.log(c.name);
+
+const d = () => {}
+console.log(d.name);
+
+const e = {
+    om1: function() {},
+    om2 () {},
+    om3: () => {}
+}
+console.log(e.om1.name, e.om2.name, e.om3.name);
+
+function G () {}
+G.method1 = function() {}
+G.prototype.method2 = function() {}
+
+const g = new G();
+console.log(G.method1.name, g.method2.name);
+
+class F {
+    static method1 () {}
+    method2 () {}
+}
+const f = new F();
+console.log(F.method1.name, f.method2.name);
+
+// 아래 사용할 일 없음.
+const g = new Function('a', 'b', 'return a + b');
+console.log(g.name);
+
+function a() {}
+a.call({}, 1, 2, 3);
+
+const person = {
+    _name: "재남",
+    get name() {
+        return this._name
+    },
+    set name(v) {
+        this._name = v;
+    }
+}
+const descriptor = Object.getOwnPropertyDescriptor(person, "name");
+</script>
+</body>
+</html>

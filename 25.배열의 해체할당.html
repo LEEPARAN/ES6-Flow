@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 10. destructuring assignment(해체할당, 구조분해할당, 디스트럭쳐링)
+// 10-1. 배열 해체할당
+// 10-1-1. 사용법
+// 1) 기본
+var colors = ['red', 'white', 'orange'];
+var first = colors[0];
+var second = colors[1];
+var third = colors[2];
+console.log(first, second, third);
+
+const colors = ['red', 'white', 'orange'];
+const [frist, second, third] = colors;
+console.log(first, second, third);
+
+// 2) 발췌
+const colors = ['red', 'white', 'orange'];
+const [ , , third, fourth] = colors;
+console.log(third, fourth);
+
+// 10-1-2. 활용
+// 1) rest parameter와의 연동
+const arr = [1, 2, 3, 4, 5];
+const [ a, ...b] = arr;
+const [ , , ...c ] = arr;
+console.log(a, b, c);
+
+// 2) default parameter와의 연동
+const [a = 10, b = 20] = [undefined, 5];
+const [c, d = c * 2] = [5];
+const [e = f, f] = [undefined, 10];
+
+// 3) 다차원 배열에서
+const arr = [1, [2, [3, 4], 5], 6];
+const [a, [b, [ , c], ], d] = arr;
+console.log(a, b, c, d);
+
+// 4) 값 교환하기
+var a = 10;
+var b = 20;
+var c = a;
+a = b;
+b = c;
+console.log(a, b);
+
+let a = 10;
+let b = 20;
+[a, b] = [b, a];
+console.log(a, b);
+</script>
+</body>
+</html>

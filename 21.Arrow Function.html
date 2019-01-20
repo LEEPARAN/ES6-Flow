@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 8. Arrow Function
+// 8-1 소개
+var a = function() {
+    return new Date();
+}
+var b = function(a) {
+    return a * a;
+}
+var c = function(a, b) {
+    return a + b;
+}
+var d = function(a, b) {
+    console.log(a * b);
+}
+
+var a = () => {
+    return new Date();
+}
+var b = (a) => {
+    return a * a;
+}
+var c = (a, b) => {
+    return a + b;
+}
+var d = (a, b) => {
+    console.log(a * b);
+}
+
+// 함수 내부의 내용이 반환 값(return) 밖에 없을 경우 중괄호와 return을 없앨 수 있다.
+var a = () => new Data();
+// 인자(매개변수)가 하나 밖에 없을 경우 괄호를 생략할 수 있다. 없을 경우에는 생략하면 안됌.
+var b = a => a * a;
+var c = (a, b) => a + b;
+var d = (a, b) => {
+    console.log(a * b);
+}
+
+// 문제 1
+var e = function(x) {
+    return {
+        x: x
+    }
+}
+// 객체를 바로 반환해야 하는 경우 읽는 과정에서 객체가 아닌 함수 본문으로 인식하기에
+// 객체를 소괄호로 감싸줘야 함.
+var e = x => ({ x });
+
+// 문제 2
+var f = function(a) {
+    return function(b) {
+        return a + b;
+    }
+}
+var f = a => b => a + b;
+
+// 8-2.상세
+// 1) (매개변수) => { 본문 }
+// 2) 매개반수가 하나뿐인 경우 괄호 생략 가능
+// 3) 매개변수가 없을 경우엔 괄호 필수
+// 4) 본문이 return [식 or 값] 뿐인 경우 { } 와 return 키워드 생략 가능
+// 5) 위 4) 에서 return할 값이 객체인 경우엔 괄호 필수
+
+const f = () => {
+    a: 1,
+    b: 2
+}
+const f = () => ({
+    a: 1,
+    b: 2
+});
+
+// 6) 실행컨텍스트 생성시 this 바인딩을 하지 않음
+const obj = {
+    a () {
+        console.log(this);
+        const b = () => {
+            console.log(this);
+        }
+        b();
+    }
+}
+obj.a();
+
+// arrow function은 '함수스코프'를 생성한다. 다만, 실행컨텍스트 생성시 this 바인딩을 하지 않을 뿐
+
+const obj = {
+    grades: [80, 90, 100],
+    getTotal: function() {
+        this.total = 0;
+        this.grades.forEach(function(v) {
+            this.total += v;
+        });
+    }
+}
+obj.getTotal();
+console.log(obj.total);
+
+const obj = {
+    grades: [80, 90, 100],
+    getTotal: function() {
+        this.total = 0;
+        this.grades.forEach(v => {
+            this.total += v;
+        });
+    }
+}
+obj.getTotal();
+console.log(obj.total);
+
+// 7) 명시적 this 바인딩 ?
+
+const a = () => {
+    console.log(this);
+}
+a.call({a: 1}) // 출력 값: window
+
+const sum = (...arg) => {
+    console.log(this);
+    return arg.reduce((p, c) => p + c);
+}
+sum(1, 2, 3, 4, 5);
+
+const b = {
+    name: "하하",
+    bb () {
+        return this.name;
+    },
+    a: x => { // arrow function은 this 바인딩을 하지 않음.
+        return this.name;
+    }
+}
+
+const c = {
+    name: "하하",
+    bb () {
+        const b = x => {
+            return this.name;
+        }
+        console.log(b());
+    }
+}
+c.bb();
+
+// 그 밖에 this 외에도 super, arguments, new.target 등을 바인딩하지 않는다.
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+if(true) {
+    a();
+    function a() { console.log(true) }
+}
+a();
+
+a();
+if(true) {
+    a();
+    function a() { console.log(true) }
+}
+
+if(true) {
+    a();
+    function a() { console.log(true) }
+    if(true) {
+        a();
+        function a() { console.log(false) }
+    }
+}
+a();
+
+'use strict';
+if(true) {
+    a();
+    function a() { console.log(true) }
+}
+a();
+
+// 'strict mode' 가 아닌 경우: 브라우저 마다 다르 동작. 예상이 안됌
+// 'strict mode': 함수선언문도 블락스코프에 갇힌다.
+// ES6에서는 함수 선언문을 쓰지 말자.
+// Arrow Function, 객체: 메소드 축약형, 생성자 함수는 class를 사용하자.
+// -> 'function' 이란 단어는 generator 에서만 사용하자 심지어 generator에서는 'function*'로 나온다.
+// 오롯이 'function'만 있는 키워드가 등장할 일 자체가 아예 없다. 어떻게든 안쓰는 쪽으로 고민하고 작성하자.
+
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// 10-2. 객체 해체할당
+// 10-2-1. 사용법
+// 1) 기본: (추출할 프로퍼티명: 할당하고자 하는 변수명)
+const iu = {
+    name: '아이유',
+    age: 25,
+    gender: 'femail'
+}
+const {
+    name: n,
+    age: a,
+    gender: g
+} = iu;
+console.log(n, g, a);
+
+const loginInfo = {
+    device: {
+        createAt: '2017-12-06T00:14:04+0000',
+        deviceId: '0000000000004Vx',
+        deviceType: 'desktop'
+    },
+    user: {
+        createAt: '2017-03-08T18:00:28+000',
+        email: 'power4ce@gmail.com',
+        name: '정재남',
+        nickname: 'gomugom',
+        phoneNumber: '010-9185-9155'
+    }
+}
+// ES6에서의 객체는 오른쪽에서 왼쪽으로 읽어라.
+const {
+    device: {
+        createAt,
+        deviceId,
+        deviceType
+    },
+    user: userInfo,
+    user: {
+        createAt: userCreateAt,
+        nickname,
+        email,
+        name
+    }
+} = loginInfo;
+
+const {
+    device: {
+        createAt,
+        deviceId,
+        deviceType
+    },
+    user: userInfo,
+    user: {
+        createAt: userCreateAt,
+        nickname,
+        email,
+        name
+    }
+} = {
+    device: {
+        createAt: '2017-12-06T00:14:04+0000',
+        deviceId: '0000000000004Vx',
+        deviceType: 'desktop'
+    },
+    user: {
+        createAt: '2017-03-08T18:00:28+000',
+        email: 'power4ce@gmail.com',
+        name: '정재남',
+        nickname: 'gomugom',
+        phoneNumber: '010-9185-9155'
+    }
+}
+
+// 5) default parameter와의 연동
+const phone = {
+    name: "iPhone",
+    color: undefined
+}
+
+const {
+    name: n,
+    version: v = '6+',
+    color: c = 'sliver'
+} = phone;
+console.log(n, v, c);
+
+const {
+    name,
+    version = "X",
+    color = 'black'
+} = phone;
+console.log(name, version, color);
+
+const deliveryProduct = {
+    orderedDate: '2018-01-15',
+    estimatedDate: '2018-01-20',
+    status: '배송중',
+    items: [
+        { name: '사과', price: 1000, quantity: 3 },
+        { name: '배', price: 1500, quantity: 2 },
+        { name: '딸기', price: 2000, quantity: 4 },
+    ]
+}
+
+const {
+    estimatedDate: esti,
+    status,
+    items: [ , ...products]
+} = deliveryProduct;
+
+console.log(esti, status, products);
+
+const getUrlParts = (url) => {}
+
+const getArea = (info) => {
+    const { width, height } = info;
+    return width * height;
+}
+getArea({ width: 10, height: 50 });
+
+// 위의 코드 개선
+
+const getArea = ({ width, height } = { width: 0, height: 0 }) => {
+    return width * height;
+}
+// getArea({ width: 10, height: 50 });
+getArea({ width: 10, a: 100, b: 200, c: 300 });
+
+user { name: '재남', nickname: '' };
+function ({ name, nickname = name }) {
+    
+} 
+</script>
+</body>
+</html>
