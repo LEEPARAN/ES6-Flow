@@ -947,3 +947,314 @@ console.log(Reflect.ownKeys(obj2)); // 출력 값: ["2", "10", "02", "01", "[Sym
 출력을 하게 된다. 그리고 [Symbol('2')] 이런 것이 추가되었는데 아직 이에 대한 설명이 없어서 용도는
 알 수없고 일단 출력 결과로 알 수있는 것은 평소에 일반적인 코드로는 출력할 수 없으나 Reflect.ownKeys 메소드
 안에서 실행하면 Symbol이 보이며 이는 문자열이 입력순서대로 들어간 뒤 Symbol이 입력 순서대로 들어감을 확인할 수 있다.
+
+#### Arrow Function
+
+사용법
+```
+// 기존 ES5
+var abc = function() {
+   내용...
+}
+
+// ES6의 Arrow Function
+const abc = () => {
+   내용...
+}
+```
+
+사용법 자체는 사실 별거없다. function 이라는 글자가 사라지고 대신 소괄호와 중괄호 사이에
+=> 모양의 화살표가 생겨 소괄호 안에 있는 인자의 값이 전달되고(없으면 그냥 아무것도 전달이 안될 것이고)
+=> 이후에 {} 중괄호 안에 있는 값이 실행되어라 라고 좀 더 직관적으로 표기해준다.
+
+응용법
+```
+// 한개의 인자와 중괄호 내부에는 리턴 값만이 존재하는 상태
+const abc = (a) => {
+    return a * a;
+}
+
+// 함수 내부에 리턴 값만 존재할 경우 중괄호와 리턴을 제거하여도 된다.
+// ES6에서는 return 값만 존재할 경우 return 값이 없더라도 아래와 같은 식으로 작성할 경우 자동적으로 return 해준다.
+const abc = (a) => a * a;
+
+// 조금 더 줄여보자.
+// 함수 매개변수(인자)값이 하나만 있을 경우 소괄호 작성하지 않아도 된다.
+const abc = a => a * a;
+```
+
+위와 같은 조건에 해당하는 경우에만 중괄호, 소괄호를 생략할 수 있으며 그렇지 않은 경우 기존 작성법에 맞게 작성해주어야 한다.
+
+예) 
+1. 함수 내부에 return 값이 아닌 다른 값이 있을경우 중괄호, 리턴 값 생략 불가
+2. 매개변수(인자)값이 존재하지 않거나 두 개 이상일 경우
+
+간단한 문제가 있어서 문제를 보도록 하자.(문제는 작성해두었던 코드를 확인했다. 생각이 안난다..)
+코드를 ES6 형식으로 간결하게 바꿔보도록 하자.
+```
+// 문제 1
+var e = function(x) {
+    return {
+        x: x
+    }
+}
+
+// 문제 1 정답
+const e = x => ({ x });
+
+// 문제 1번에서 왜 정답이 x => { x } 가 아니냐고 할 수 있는데 기본의 Arrow Function의 코드가
+// () => {} 인 것을 생각하면 이해할 수 있는데 객체의 중괄호와 함수의 중괄호가 동일하여 코드를 읽을 때
+// 객체가 아닌 함수 본문으로 인지하기에 소괄호로 감싸주어야 정확히 객체로 인식하고 동작이 가능하다
+// x: x 를 x로 한거는 이전에 배운 shorthand property에서 알 수 있다.
+
+// 문제 2
+var f = function(a) {
+    return function(b) {
+	return a + b;
+    }
+}
+
+// 문제 2 정답
+const f = a => b => a + b;
+
+// 무언가 복잡해보이지만 결국엔 함수 안에 함수를 담은 것이기에
+// (a) => (b) => 이어진 것이고 함수 본문 내용이 return a + b 밖에 없기에 중괄호와 return 값과 중괄호를 생략하여
+// (a) => (b) => a + b 가 되었고 매개변수가 하나뿐일 경우 매개변수를 감싼 소괄호도 생략이 가능하다.
+```
+
+#### name property
+
+ES6에서 생긴건 아니고 그냥 name property라는 것이 있는데 디버깅하는데 유용하다고 한다.
+나는 단 한번도 사용해본 적이 없다.
+
+사용법 
+```
+function a () {}
+console.log(a.name); // 출력 값: a
+
+const b = function() {}
+console.log(b.name); // 출력 값: b
+
+const c = function cc () {}
+console.log(c.name) // 출력 값: cc
+
+const d = () => {}
+console.log(d.name) // 출력 값: d
+
+const e = {
+    om1: function() {},
+    om2 () {},
+    om3: () => {}
+}
+console.log(e.om1, e.om2, e.om3); // 출력 값: om1, om2, om3
+
+class F {
+    static method1 () {}
+    method2() {}
+}
+const f = new F();
+console.log(F.method1.name, f.method2.name); // 출력 값: method1, method2
+
+function G() {}
+G.method1 = function() {}
+G.prototype.method2 = function() {}
+
+const g = new G();
+console.log(G.method1.name, g.method2.name); // 출력 값: 없음
+```
+
+그냥 위에 사용법에 적혀있듯이 .name 해주면 함수의 이름 값이 보인다. 여기서 짚고 넘어갈 사항으로 new 생성자 함수인
+G만 보자면 new 생성자 함수로 생성된 값은 name property가 존재하지 않는다. 이정도만 알고 넘어가면 될 것 같다.
+
+#### new.target
+
+ES5에서는 함수를 인스턴스로서 생성하여 사용 했는데 함수를 new 생성자 함수를 호출하여 사용하는지 확인하기 위해
+아래와 같은 코드를 작성하여 검사하였다.
+
+```
+function Person(name) {
+    if(this instanceof Person) {
+    	this.name = name;
+    }
+    else {
+    	throw new Error("new 연산자를 사용하세요.");
+    }
+}
+
+var p1 = new Person("솔");
+console.log(p1); // 출력 값: Person {name: 솔}
+
+var p2 = Person("yuni");
+console.log(p2); // 출력 값: new 연산자를 사용하세요.
+
+// call method를 활용하면 함수로 호출할 수 있다.
+
+var p3 = Person.call(p1, '곰');
+console.log(p3); // 출력 값: undefined
+```
+
+p3의 경우 p1을 this로 하여 if(this instanceof Person) 부분은 통과하였지만 반환해주는 값이 없어 undefined가 나온다.
+이러한 부분을 new.target으로 보완할 수 있다.
+
+```
+function Person(name) {
+    if(new.target === Person) {
+    	this.name = name;
+    }
+    else {
+    	throw new Error("new 연산자를 사용하세요.");
+    }
+}
+
+var p1 = new Person("솔");
+console.log(p1); // 출력 값: Person {name: 솔}
+
+var p2 = Person("yuni");
+console.log(p2); // 출력 값: new 연산자를 사용하세요.
+
+// call method를 활용하면 함수로 호출할 수 있다.
+
+var p3 = Person.call(p1, '곰');
+console.log(p3); // 출력 값: new 연산자를 사용하세요.
+```
+
+#### 함수선언문과 스코프
+
+```
+// 'strict mode' 가 아닌 경우: 브라우저 마다 다르 동작. 예상이 안됌
+// 'strict mode': 함수선언문도 블락스코프에 갇힌다.
+// ES6에서는 함수 선언문을 쓰지 말자.
+// Arrow Function, 객체: 메소드 축약형, 생성자 함수는 class를 사용하자.
+// -> 'function' 이란 단어는 generator 에서만 사용하자 심지어 generator에서는 'function*'로 나온다.
+// 오롯이 'function'만 있는 키워드가 등장할 일 자체가 아예 없다. 어떻게든 안쓰는 쪽으로 고민하고 작성하자.
+```
+
+#### 배열의 해체할당
+
+사용법
+```
+// ES5
+var colors = ['red', 'blue', 'yellow'];
+var first = colors[0];
+var second = colors[1];
+var third = colors[2];
+
+// ES6
+const colors = ['red', 'blue', 'yellow'];
+const [first, second, third] = colors;
+```
+
+ES6의 코드를 보면 정말 단순해진 것을 볼 수 있다. ES5처럼 굳이 인덱스 넘버를 일일이 지정하고 할 필요없이
+const [first ...] = colors와 같은 식으로 하기에 정말 편하다. 
+앞의 변수를 어떻게 지정했냐에 따라 const가 될 수도, let이 될 수도 있다.
+
+그렇다면 모든 값을 다 받아오고 싶지않을 경우, 그리고 값을 초과해서 받을 경우 어떠한 결과가 나타날까?
+
+```
+const colors = ['red', 'blue', 'yellow'];
+const [ , , third, fourth] = colors;
+console.log(third) // 출력 값: 'yellow'
+console.log(fourth) // 출력 값: undefined
+```
+
+위와 같은 식으로 넘기고 싶은 배열은 공백에 반점으로 넘기면 되고 초과되는 변수는 undefind를 받아온다.
+
+이외에도 rest parameter, default parameter, 다차원 배열 등에서도 활용이 가능하다.
+
+```
+const arr = [1, 2, 3, 4, 5];
+const [a, , ...b] = arr;
+console.log(a) // 출력 값: 1
+console.log(b) // 출력 값: [3, 4, 5]
+
+const [a = 1, b = 3] = [5];
+console.log(a) // 출력 값: 5
+console.log(b) // 출력 값: 3
+
+const arr = [1, [2, [3, 4], 5], 6];
+const [a, [b, [ , c], ], d] = arr;
+consolee.log(a, b, c, d); // 출력 값: 1, 2, 4, 6
+```
+
+#### 객체의 해체할당
+
+강사님께서 이거 정말 좋다며 강조를 많이 했는데 정말 좋은 것 같다. ES6 사용하게 되면 꼭 쓰고 싶은 기능이다.
+
+사용법
+```
+// ES5
+var iu = {
+    name: "이지은",
+    age: 27,
+    gender: "femail"
+}
+var iuName = iu.name;
+var iuAge = iu.age;
+var iuGender = iu.gender;
+
+// ES6
+const iu = {
+    name: "이지은",
+    age: 27,
+    gender: "femail"
+}
+const {
+    name: iuName,
+    age: iuAge,
+    gender: iuGender
+} = iu;
+
+console.log(iuName, iuAge, iuGender); // 출력 값: '이지은', 27, 'femail'
+```
+
+위와 같은 방식이다. 방식 자체는 배열 해체할당이랑 동일하다.
+특이점이 있다면 ES6에서의 객체는 오른쪽에서 왼쪽으로 읽어야 한다는 것이다. 기존의 ES5를 생각하면 iuName: name 이 되어야
+name이라는 값을 iuName 이라는 key 값 안에 넣어주는 것인데 ES6에서는 name: iuName 하면 오른쪽으로 읽는다고 생각할 때 
+iuName이라는 변수안에 name 값을 집어넣는다. 라고 생각하면 편할 것 같다.
+
+객체는 ES6에 접어들면서 shorthand property라는 것이 가능해졌다. 객체 해체할당시에도 이는 적용된다.
+```
+const {
+    name,
+    age,
+    gender
+}
+console.log(name, age, gender) // 출력 값: '이지은', 27, 'femail'
+```
+
+객체 해체할당도 위의 배열 해체할당과 마찬가지로 rest parameter와 default parameter를 활용할 수 있다.
+
+```
+const deliveryProduct = {
+    orderedDate: '2018-01-15',
+    estimatedDate: '2018-01-20',
+    status: '배송중',
+    items: [
+        { name: '사과', price: 1000, quantity: 3 },
+        { name: '배', price: 1500, quantity: 2 },
+        { name: '딸기', price: 2000, quantity: 4 },
+    ]
+}
+
+const {
+    estimatedDate: esti,
+    status,
+    items: [ , ...prodcuts]
+} = deliveryProduct;
+
+
+const getArea = ({ width, height } = { width: 0, height: 0 }) => {
+    return width * height;
+}
+getArea({ width: 10, height: 50 });
+```
+
+
+여기까지 ES6+ 초급 강의가 끝이났습니다.
+깃헙을 작성하다보니 어느센가 날짜를 안적고 있어서 정확히 언제들었는지 확인하려면 commit을 확인해봐야 될 것 같은데
+아무튼 강의를 듣는데 ES5와 ES6를 비교해가면서 설명해줘 왜 이걸 쓰는게 훨씬 유용한지에 대해 알려줘 이해하기 쉬운
+강의였던 것 같습니다. ES6 강의를 들은건 Vue.js 를 배우기 위한 발돋움 같은 것이라 이제 시작이라고 생각하며 아직 말그대로
+초급 밖에 안배웠고 실무에서 사용해본 적도 없어서 어떤진 모르겠지만 나름 알짜배기의 기능들을 잘 배운 것 같아서 토이프로젝트나
+실무에서 작성할 때 꽤나 유용한 강의가 되지 않을까 생각합니다. 일단 현재까지의 최종목표는 NEMV를 마쳐서 토이프로젝트를 완성하는 것이기에
+아직 갈길이 멀어 좀 더 열심히 공부해야 될 것 같고 아무튼 꽤나 좋은 강의였습니다. 
+ES6를 공부하고자 하는 많은 분들이 이 강의를 들으시면 좋을 것 같습니다.
